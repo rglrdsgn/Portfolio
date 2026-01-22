@@ -71,6 +71,34 @@
         h1 { font-size: 3rem; margin-bottom: 20px; }
         p { max-width: 600px; font-size: 1.2rem; color: #666; }
 
+        /* Stile per il contenuto dentro il popup della mappa */
+        .popup-custom {
+        text-align: center;
+        max-width: 150px; /* Limita la larghezza del popup */
+        }
+
+        .popup-custom img {
+        width: 80px;      /* Forza il logo a una dimensione fissa */
+        height: auto;     /* Mantiene le proporzioni */
+        margin-bottom: 8px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 4px; /* Opzionale: arrotonda i bordi del logo */
+        }
+
+        .popup-custom p {
+            margin: 0;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .popup-custom span {
+            font-size: 0.7rem;
+            color: #007BFF;
+            text-transform: uppercase;
+        }
     </style>
 </head>
 <body>
@@ -123,48 +151,49 @@
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
 
-        // --- FUNZIONE PER CREARE I CERCHIETTI ---
-        function aggiungiCerchio(lat, lng, nomeSquadra, linkPagina) {
-            
-            // Crea il cerchio
-            var circle = L.circleMarker([lat, lng], {
-                color: '#007BFF',      // Colore bordo
-                fillColor: '#007BFF',  // Colore riempimento
-                fillOpacity: 0.7,      // Trasparenza
-                radius: 10             // Dimensione del cerchio
-            }).addTo(map);
+        // AGGIORNAMENTO DELLA FUNZIONE
+function aggiungiCerchio(lat, lng, nomeSquadra, linkPagina, urlLogo) {
+    
+    var circle = L.circleMarker([lat, lng], {
+        color: '#007BFF',
+        fillColor: '#007BFF',
+        fillOpacity: 0.7,
+        radius: 10
+    }).addTo(map);
 
-            // Aggiunge il Popup (il fumetto con il nome)
-            circle.bindPopup("<b>" + nomeSquadra + "</b>");
+    // Creiamo il contenuto HTML del popup
+    // Ho aggiunto una classe 'popup-content' per gestirlo col CSS
+    var contenutoPopup = `
+        <div class="popup-custom">
+            <img src="${urlLogo}" alt="Logo ${nomeSquadra}">
+            <p><b>${nomeSquadra}</b></p>
+            <span>Clicca per i dettagli</span>
+        </div>
+    `;
 
-            // Evento: Mouse sopra (apre popup)
-            circle.on('mouseover', function (e) {
-                this.openPopup();
-                this.setStyle({ color: 'red', fillColor: 'red' }); // Cambia colore all'hover
-            });
+    circle.bindPopup(contenutoPopup);
 
-            // Evento: Mouse fuori (chiude popup)
-            circle.on('mouseout', function (e) {
-                this.closePopup();
-                this.setStyle({ color: '#007BFF', fillColor: '#007BFF' }); // Ripristina colore
-            });
+    // Eventi mouse (rimangono uguali)
+    circle.on('mouseover', function (e) { this.openPopup(); });
+    circle.on('mouseout', function (e) { this.closePopup(); });
+    circle.on('click', function (e) { window.location.href = linkPagina; });
+    }
 
-            // Evento: Click (vai al link)
-            circle.on('click', function (e) {
-                window.location.href = linkPagina;
-            });
+    // ESEMPIO DI CHIAMATA (Aggiungi l'URL dell'immagine come ultimo parametro)
+    aggiungiCerchio(51.995, 5.091, "VV Vianen", "#works", "https://instagram.fbcn14-1.fna.fbcdn.net/v/t51.2885-19/457505470_1723024605132050_3296210523554783241_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby40MzEuYzIifQ&_nc_ht=instagram.fbcn14-1.fna.fbcdn.net&_nc_cat=102&_nc_oc=Q6cZ2QHHRyr_bRUuyDwYOVzq526u-IVYWh2wPUGWoMD93pisly5rBEFO-4dhKw812q2fpHs&_nc_ohc=yAfh3KFZPRYQ7kNvwH7UnVf&_nc_gid=MKpEOn2wPCXBTo6S2ho0JQ&edm=AP4sbd4BAAAA&ccb=7-5&oh=00_Afrus6ykb8hAhJ7V_KQGr-MvWAm8YH9ox6xdNl--R9SWeg&oe=6977BC22&_nc_sid=7a9f4b");
+    aggiungiCerchio(14.599, 120.984, "Philippines Football National Mens Team", "#works", "https://instagram.fbcn14-1.fna.fbcdn.net/v/t51.2885-19/14624752_1889378264623749_7256826693791252480_a.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby42NzcuYzIifQ&_nc_ht=instagram.fbcn14-1.fna.fbcdn.net&_nc_cat=109&_nc_oc=Q6cZ2QGiB7BjdWzlkKEsJu19-a8RmlYYDnSePldWeg0DLRYQUPE2Pu-afZwz6aLqiUMVPcc&_nc_ohc=OUeYhyL0i50Q7kNvwGaU9_u&_nc_gid=cT6jsEzrcVu4RCH9X6vQJQ&edm=AP4sbd4BAAAA&ccb=7-5&oh=00_AfrFQAIUr1lPTj__0N-Z_cznRITLJJAdUcap9ETPWy7KmQ&oe=6977CA12&_nc_sid=7a9f4b");
         }
 
         // --- AGGIUNTA DEI PUNTI ---
         
         // 1. Olanda (Vianen)
         // Coordinate approssimative di Vianen: 51.995, 5.091
-        aggiungiCerchio(51.995, 5.091, "Vianen (Olanda)", "#works"); 
+        aggiungiCerchio(51.995, 5.091, "VV Vianen", "#works"); 
         // Nota: ho messo "#works" come link prova. Sostituiscilo con "pagina-vianen.html"
 
         // 2. Filippine (Manila)
         // Coordinate Manila: 14.599, 120.984
-        aggiungiCerchio(14.599, 120.984, "Naz. Filippine", "#works");
+        aggiungiCerchio(14.599, 120.984, "Philippine Football National Mens Team", "#works");
 
     </script>
 </body>
