@@ -11,15 +11,10 @@
 
     <style>
         /* --- STILE CSS GENERALE --- */
-        * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box; 
-        }
         body { 
+            margin: 0; 
+            padding: 0;
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; }
-        html { 
-            scroll-behavior: smooth; }
         
         #site-logo {
             height: 72px;     /* Modifica questo numero per ingrandire o rimpicciolire */
@@ -267,6 +262,23 @@
      crossorigin=""></script>
 
     <script>
+        let lastScrollTop = 0;
+        const navbar = document.getElementById('mainNav');
+
+        window.addEventListener("scroll", function() {
+            // Ottiene la posizione attuale dello scroll
+            let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+            if (currentScroll > lastScrollTop && currentScroll > 50) {
+                // SCROLL VERSO IL BASSO (e non siamo in cima alla pagina)
+                navbar.classList.add('collapsed');
+            } else {
+                // SCROLL VERSO L'ALTO
+                navbar.classList.remove('collapsed');
+            }
+
+            // Evita comportamenti strani su scroll negativo (es. "bounce" su mobile)
+            lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
         // --- CONFIGURAZIONE MAPPA ---
 
         // 1. Inizializza la mappa centrata sull'Europa/Asia (Latitudine, Longitudine) e livello di zoom (3 = mondo)
@@ -313,16 +325,6 @@ function aggiungiCerchio(lat, lng, nomeSquadra, linkPagina, urlLogo) {
     // ESEMPIO DI CHIAMATA (Aggiungi l'URL dell'immagine come ultimo parametro)
     aggiungiCerchio(51.995, 5.091, "VV Vianen", "#works", "assets/Vianen.jpg");
     aggiungiCerchio(14.599, 120.984, "Philippines Football National Mens Team", "#works", "assets/Philippines.jpg");
-
-    window.addEventListener("scroll", function() {
-    const header = document.querySelector("header");
-    
-    // Se lo scroll verticale è maggiore di 50px, aggiungi la classe 'scrolled'
-    if (window.scrollY > 50) {
-        header.classList.add("scrolled");
-        } else {
-        header.classList.remove("scrolled");
-        }
     });
     </script>
 </body>
