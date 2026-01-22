@@ -11,9 +11,15 @@
 
     <style>
         /* --- STILE CSS GENERALE --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; }
-        html { scroll-behavior: smooth; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        body { 
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; }
+        html { 
+            scroll-behavior: smooth; }
         
         #site-logo {
             height: 72px;     /* Modifica questo numero per ingrandire o rimpicciolire */
@@ -27,67 +33,110 @@
             align-items: center;
             padding: 0px 0;
         }
-        
-        /* --- HEADER BASE --- */
-        header {
-            background-color: #e52c1d;
+
+        /* --- STILI DELLA NAVBAR --- */
+        .navbar {
             position: fixed;
-            width: 100%;
             top: 0;
-            z-index: 1000;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Transizione fluida */
-            height: 80px;
-            display: flex;
-            align-items: center;
-        }
-        
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
+            left: 0;
             width: 100%;
-            margin: 0 auto;
-            padding: 0 2rem;
-            transition: all 0.5s ease;
-        }
-        
-        /* Link del menu */
-        .nav-links {
+            background-color: #D32F2F; /* Rosso intenso */
             display: flex;
-            list-style: none;
-            gap: 30px;
-            transition: opacity 0.3s ease, visibility 0.3s;
-        }
-        
-        /* --- STATO CONTRATTO (Quando si scende) --- */
-        header.scrolled {
-            height: 50px; /* Più sottile */
-            background-color: var(--nav-bg);
+            align-items: center;
+            justify-content: flex-end; /* I link stanno a destra */
+            padding: 0 2rem;
+            box-sizing: border-box;
+            z-index: 1000;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        header.scrolled .nav-links {
-            opacity: 0;
-            visibility: hidden; /* Nasconde i link */
-        }
-        
-        header.scrolled nav {
-            justify-content: center; /* Porta il logo al centro */
-        }
-        
-        header.scrolled #site-logo {
-            height: 35px; /* Logo più piccolo */
-        }
-        
-        /* Stile per il logo per permettere la transizione fluida */
-        #site-logo {
-            transition: all 0.5s ease;
+            
+            /* Parametri iniziali (Stato PIENO) */
+            height: 100px;
+            
+            /* Transizione fluida per l'altezza */
+            transition: height 0.4s ease-in-out;
         }
 
-        .nav-links { list-style: none; display: flex; gap: 30px; }
-        .nav-links a { text-decoration: none; color: #f0ebda; font-weight: 500; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px; transition: color 0.3s ease; }
-        .nav-links a:hover { color: #007BFF; }
+        /* --- STILE DEL LOGO --- */
+        #logo {
+            position: absolute;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            white-space: nowrap;
+            
+            /* Posizione Iniziale: A sinistra */
+            left: 2rem;
+            top: 50%;
+            transform: translateY(-50%); /* Centrato verticalmente */
+            
+            /* Transizione per spostamento e ridimensionamento */
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* --- STILE DEI LINK --- */
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            
+            /* Transizione per la dissolvenza */
+            transition: opacity 0.3s ease-in-out, visibility 0.3s;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* --- STATO "COLLAPSED" (Scroll verso il basso) --- */
+        .navbar.collapsed {
+            height: 60px; /* La barra si comprime */
+        }
+
+        .navbar.collapsed #logo {
+            /* Il logo si sposta al centro */
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.7); /* Centrato orizzontalmente + Rimpicciolito */
+        }
+
+        .navbar.collapsed .nav-links {
+            /* I link spariscono */
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none; /* Impedisce di cliccarli mentre sono invisibili */
+        }
+
+        /* --- CONTENUTO DUMMY PER SCROLLARE --- */
+        .content {
+            padding-top: 150px; /* Spazio per non finire sotto la navbar */
+            padding-left: 2rem;
+            padding-right: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .placeholder-block {
+            height: 300px;
+            background: #ddd;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+        }
 
         /* --- STILE MAPPA --- */
         #map-container {
