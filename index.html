@@ -3,83 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>rglr design</title>
+    <title>rglr design - Portfolio</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+
     <style>
-        /* --- STILE CSS --- */
-        
-        /* Reset di base per togliere margini predefiniti */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        /* --- STILE CSS GENERALE --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; }
+        html { scroll-behavior: smooth; }
 
-        /* Impostazioni generali del testo */
-        body {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-        }
-
-        /* Scorrimento fluido quando si clicca sui link */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* --- BARRA DI NAVIGAZIONE (TOP BAR) --- */
+        /* --- BARRA DI NAVIGAZIONE --- */
         header {
             background-color: #ffffff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Leggera ombra */
-            position: fixed; /* Fissa la barra in alto */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: fixed;
             width: 100%;
             top: 0;
-            z-index: 1000; /* Assicura che stia sopra tutto */
+            z-index: 1000;
         }
 
         nav {
             display: flex;
-            justify-content: space-between; /* Spazia logo e menu */
+            justify-content: space-between;
             align-items: center;
             max-width: 1200px;
             margin: 0 auto;
             padding: 1rem 2rem;
         }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #222;
-            text-decoration: none;
+        .logo { font-size: 1.5rem; font-weight: bold; color: #222; text-decoration: none; }
+        .nav-links { list-style: none; display: flex; gap: 30px; }
+        .nav-links a { text-decoration: none; color: #555; font-weight: 500; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px; transition: color 0.3s ease; }
+        .nav-links a:hover { color: #007BFF; }
+
+        /* --- STILE MAPPA --- */
+        #map-container {
+            margin-top: 80px; /* Spazio per la navbar */
+            width: 100%;
+            height: 60vh; /* La mappa occupa il 60% dell'altezza dello schermo */
+            background-color: #ddd; /* Colore mentre carica */
+            position: relative;
+        }
+        
+        #map {
+            width: 100%;
+            height: 100%;
+            z-index: 1;
         }
 
-        .nav-links {
-            list-style: none;
-            display: flex;
-            gap: 30px; /* Spazio tra le voci del menu */
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #555;
-            font-weight: 500;
-            transition: color 0.3s ease;
-            text-transform: uppercase; /* Rende il testo maiuscolo */
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-        }
-
-        .nav-links a:hover {
-            color: #007BFF; /* Colore al passaggio del mouse */
-        }
-
-        /* --- SEZIONI PRINCIPALI --- */
-        main {
-            margin-top: 80px; /* Spazio per non finire sotto la barra fissa */
-        }
-
+        /* --- SEZIONI --- */
         section {
-            padding: 100px 20px;
-            min-height: 100vh; /* Ogni sezione occupa almeno l'altezza dello schermo */
+            padding: 80px 20px;
+            min-height: 80vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -87,11 +65,9 @@
             text-align: center;
         }
 
-        /* Colori di sfondo alternati per distinguere le sezioni */
         #works { background-color: #f9f9f9; }
         #concepts { background-color: #eef2f3; }
         #about { background-color: #ffffff; }
-
         h1 { font-size: 3rem; margin-bottom: 20px; }
         p { max-width: 600px; font-size: 1.2rem; color: #666; }
 
@@ -102,7 +78,6 @@
     <header>
         <nav>
             <a href="#" class="logo">rglr</a>
-
             <ul class="nav-links">
                 <li><a href="#works">Works</a></li>
                 <li><a href="#concepts">Concepts</a></li>
@@ -111,22 +86,86 @@
         </nav>
     </header>
 
+    <div id="map-container">
+        <div id="map"></div>
+    </div>
+
     <main>
         <section id="works">
             <h1>Works</h1>
-            <p>Qui puoi inserire la galleria dei tuoi progetti, casi studio o fotografie.</p>
+            <p>I dettagli delle maglie appariranno qui quando clicchi sulla mappa.</p>
         </section>
 
         <section id="concepts">
             <h1>Concepts</h1>
-            <p>Questa sezione è ideale per le tue idee, bozze, filosofie di design o esperimenti.</p>
+            <p>Area per le tue idee e bozze.</p>
         </section>
 
         <section id="about">
             <h1>About</h1>
-            <p>Racconta chi sei, la tua esperienza e come contattarti.</p>
+            <p>Chi sono e contatti.</p>
         </section>
     </main>
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+
+    <script>
+        // --- CONFIGURAZIONE MAPPA ---
+
+        // 1. Inizializza la mappa centrata sull'Europa/Asia (Latitudine, Longitudine) e livello di zoom (3 = mondo)
+        var map = L.map('map').setView([30, 10], 2);
+
+        // 2. Aggiunge i "Tiles" di OpenStreetMap (l'aspetto visivo della mappa)
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        // --- FUNZIONE PER CREARE I CERCHIETTI ---
+        function aggiungiCerchio(lat, lng, nomeSquadra, linkPagina) {
+            
+            // Crea il cerchio
+            var circle = L.circleMarker([lat, lng], {
+                color: '#007BFF',      // Colore bordo
+                fillColor: '#007BFF',  // Colore riempimento
+                fillOpacity: 0.7,      // Trasparenza
+                radius: 10             // Dimensione del cerchio
+            }).addTo(map);
+
+            // Aggiunge il Popup (il fumetto con il nome)
+            circle.bindPopup("<b>" + nomeSquadra + "</b>");
+
+            // Evento: Mouse sopra (apre popup)
+            circle.on('mouseover', function (e) {
+                this.openPopup();
+                this.setStyle({ color: 'red', fillColor: 'red' }); // Cambia colore all'hover
+            });
+
+            // Evento: Mouse fuori (chiude popup)
+            circle.on('mouseout', function (e) {
+                this.closePopup();
+                this.setStyle({ color: '#007BFF', fillColor: '#007BFF' }); // Ripristina colore
+            });
+
+            // Evento: Click (vai al link)
+            circle.on('click', function (e) {
+                window.location.href = linkPagina;
+            });
+        }
+
+        // --- AGGIUNTA DEI PUNTI ---
+        
+        // 1. Olanda (Vianen)
+        // Coordinate approssimative di Vianen: 51.995, 5.091
+        aggiungiCerchio(51.995, 5.091, "Vianen (Olanda)", "#works"); 
+        // Nota: ho messo "#works" come link prova. Sostituiscilo con "pagina-vianen.html"
+
+        // 2. Filippine (Manila)
+        // Coordinate Manila: 14.599, 120.984
+        aggiungiCerchio(14.599, 120.984, "Naz. Filippine", "#works");
+
+    </script>
 </body>
 </html>
