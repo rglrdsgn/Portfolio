@@ -14,22 +14,10 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; }
         html { scroll-behavior: smooth; }
-        
-        #site-logo {
-            height: 72px;     /* Modifica questo numero per ingrandire o rimpicciolire */
-            width: auto;      /* Questo mantiene le proporzioni originali senza schiacciarlo */
-            display: block;   /* Toglie piccoli spazi vuoti sotto l'immagine */
-        }
-        
-        /* Opzionale: Se vuoi che il logo respiri un po' rispetto ai bordi */
-        .logo {
-            display: flex;
-            align-items: center;
-            padding: 0px 0;
-        }
+
         /* --- BARRA DI NAVIGAZIONE --- */
         header {
-            background-color: #e52c1d;
+            background-color: #e42c1d;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             position: fixed;
             width: 100%;
@@ -46,8 +34,9 @@
             padding: 1rem 2rem;
         }
 
+        .logo { font-size: 1.5rem; font-weight: bold; color: #efead9; text-decoration: none; }
         .nav-links { list-style: none; display: flex; gap: 30px; }
-        .nav-links a { text-decoration: none; color: #f0ebda; font-weight: 500; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px; transition: color 0.3s ease; }
+        .nav-links a { text-decoration: none; color: #efead9; font-weight: 500; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px; transition: color 0.3s ease; }
         .nav-links a:hover { color: #007BFF; }
 
         /* --- STILE MAPPA --- */
@@ -144,7 +133,7 @@
 
     <header>
         <nav>
-            <a href="#" class="logo"> <img src="assets/logo.png" alt="rglr" id="site-logo"> </a>
+            <a href="#" class="logo">rglr</a>
             <ul class="nav-links">
                 <li><a href="#works">Works</a></li>
                 <li><a href="#concepts">Concepts</a></li>
