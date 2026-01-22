@@ -27,23 +27,62 @@
             align-items: center;
             padding: 0px 0;
         }
-        /* --- BARRA DI NAVIGAZIONE --- */
+        
+        /* --- HEADER BASE --- */
         header {
             background-color: #e52c1d;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Transizione fluida */
+            height: 80px;
+            display: flex;
+            align-items: center;
         }
-
+        
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
             max-width: 1200px;
+            width: 100%;
             margin: 0 auto;
-            padding: 1rem 2rem;
+            padding: 0 2rem;
+            transition: all 0.5s ease;
+        }
+        
+        /* Link del menu */
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            transition: opacity 0.3s ease, visibility 0.3s;
+        }
+        
+        /* --- STATO CONTRATTO (Quando si scende) --- */
+        header.scrolled {
+            height: 50px; /* Più sottile */
+            background-color: var(--nav-bg);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        header.scrolled .nav-links {
+            opacity: 0;
+            visibility: hidden; /* Nasconde i link */
+        }
+        
+        header.scrolled nav {
+            justify-content: center; /* Porta il logo al centro */
+        }
+        
+        header.scrolled #site-logo {
+            height: 35px; /* Logo più piccolo */
+        }
+        
+        /* Stile per il logo per permettere la transizione fluida */
+        #site-logo {
+            transition: all 0.5s ease;
         }
 
         .nav-links { list-style: none; display: flex; gap: 30px; }
@@ -225,6 +264,17 @@ function aggiungiCerchio(lat, lng, nomeSquadra, linkPagina, urlLogo) {
     // ESEMPIO DI CHIAMATA (Aggiungi l'URL dell'immagine come ultimo parametro)
     aggiungiCerchio(51.995, 5.091, "VV Vianen", "#works", "assets/Vianen.jpg");
     aggiungiCerchio(14.599, 120.984, "Philippines Football National Mens Team", "#works", "assets/Philippines.jpg");
+
+    window.addEventListener("scroll", function() {
+    const header = document.querySelector("header");
+    
+    // Se lo scroll verticale è maggiore di 50px, aggiungi la classe 'scrolled'
+    if (window.scrollY > 50) {
+        header.classList.add("scrolled");
+        } else {
+        header.classList.remove("scrolled");
+        }
+    });
     </script>
 </body>
 </html>
