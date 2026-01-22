@@ -101,47 +101,31 @@
         }
 
         /* --- POPUP ANIMATION--- */
+        /* 1. Evitiamo che il popup disturbi il mouse mentre si muove sul marker */
+        .leaflet-popup {
+            pointer-events: none; 
+        }
+        
+        /* 2. Animiamo solo il contenuto interno per non rompere le coordinate di Leaflet */
+        .leaflet-popup-content-wrapper, .leaflet-popup-tip {
+            transform-origin: bottom center;
+            animation: balloonPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        
         @keyframes balloonPop {
             0% {
-                transform: scale(0);   /* Parte da dimensione zero */
-                opacity: 0;            /* Invisibile */
-            }
-            70% {
-                transform: scale(1.1); /* Si espande leggermente più del normale (effetto rimbalzo) */
+                transform: scale(0);
+                opacity: 0;
             }
             100% {
-                transform: scale(1);   /* Torna alla dimensione finale */
+                transform: scale(1);
                 opacity: 1;
             }
         }
         
-        /* Applichiamo l'animazione alle classi di Leaflet */
-        .leaflet-popup {
-            /* Impostiamo l'origine dell'animazione in basso al centro, 
-               esattamente sopra il cerchietto */
-            transform-origin: bottom center; 
-            animation: balloonPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
-        
-        /* Opzionale: rendiamo il popup un po' più moderno */
+        /* 3. Rendiamo il popup cliccabile se serve (per i link), ma solo una volta aperto */
         .leaflet-popup-content-wrapper {
-            border-radius: 12px;
-            padding: 5px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-        }
-        
-        .leaflet-popup-tip {
-            /* Colore del triangolino sotto il popup */
-            background: white;
-        }
-
-        .popup-custom img {
-            animation: fadeIn 0.6s ease-out;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
+            pointer-events: auto;
         }
     </style>
 </head>
@@ -215,7 +199,11 @@ function aggiungiCerchio(lat, lng, nomeSquadra, linkPagina, urlLogo) {
         </div>
     `;
 
-    circle.bindPopup(contenutoPopup);
+    circle.bindPopup(contenutoPopup, {
+    fadeAnimation: false,   // Disattiva il fade predefinito di Leaflet
+    offset: [0, -10],       // Alza il popup di 10px per non coprire il cerchietto
+    closeButton: false      // Rende il popup più pulito
+    });
 
     // Eventi mouse (rimangono uguali)
     circle.on('mouseover', function (e) { this.openPopup(); });
