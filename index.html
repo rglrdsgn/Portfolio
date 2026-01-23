@@ -69,7 +69,7 @@
         /* --- STILE DEI LINK --- */
         .nav-links {
             display: flex;
-            gap: 30px;
+            gap: 20px;
             list-style: none;
             margin: 0;
             padding: 0;
@@ -242,6 +242,12 @@
             <p>Chi sono e contatti.</p>
         </section>
     </main>
+
+    <script 
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin="">
+    </script>
   
     <script>
         // --- SCROLL
@@ -263,6 +269,9 @@
             // Evita comportamenti strani su scroll negativo (es. "bounce" su mobile)
             lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; 
         });
+    </script>
+
+    <script>
   
         // --- CONFIGURAZIONE MAPPA ---
   
