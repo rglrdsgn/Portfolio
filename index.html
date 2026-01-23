@@ -188,42 +188,40 @@
             pointer-events: none; 
         }
         
-        /* 2. Animiamo solo il contenuto interno per non rompere le coordinate di Leaflet */
-        .leaflet-popup-content-wrapper, .leaflet-popup-tip {
-            transform-origin: bottom center;
+        /* 2. Il contenitore della punta (deve avere l'origine corretta) */
+        .leaflet-popup-tip-container {
+            transform-origin: top center; /* La punta "nasce" dal corpo del popup */
             animation: balloonPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
-        /* 1. Reset e stile della punta di Leaflet */
+
+        /* 3. La punta vera e propria: forziamo la rotazione */
         .leaflet-popup-tip {
-            background: white; /* Assicurati che sia uguale al wrapper */
+            transform-origin: bottom center;
+            animation: balloonPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
             width: 15px;
             height: 15px;
-            padding: 0;
-            margin: -8px auto 0; /* Centra e solleva leggermente */
-            transform: rotate(45deg); /* Questo crea il triangolo dai 45° */
+            background: white; /* Cambia con il colore del tuo popup */
+            
+            /* Forza la rotazione che Leaflet a volte perde con le animazioni */
+            transform: rotate(45deg) !important; 
+            
+            /* Rimuoviamo eventuali bordi o ombre che la rendono quadrata */
+            border: none;
+            box-shadow: none;
+            margin: -8px auto 0; /* La incastra perfettamente sotto il wrapper */
         }
 
-        /* 2. Ottimizzazione Animazione */
-        .leaflet-popup-content-wrapper, 
-        .leaflet-popup-tip-container {
-            /* Applichiamo l'animazione a entrambi i contenitori separatamente 
-            ma con la stessa origine per un effetto fluido */
+        /* 4. Il corpo del popup */
+        .leaflet-popup-content-wrapper {
             transform-origin: bottom center;
             animation: balloonPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            box-shadow: 0 3px 14px rgba(0,0,0,0.2); /* Ombra pulita */
         }
 
-        /* 3. Correzione per la punta (tip) */
-        .leaflet-popup-tip-container {
-            overflow: hidden; /* Evita che il quadrato sporga prima di ruotare */
-            width: 30px;
-            height: 15px;
-            position: relative;
-            pointer-events: none;
-        }
-
+        /* 5. L'animazione aggiornata */
         @keyframes balloonPop {
             0% {
-                transform: scale(0.3); /* Partiamo da 0.3 invece di 0 per evitare glitch visivi sulla punta */
+                transform: scale(0);
                 opacity: 0;
             }
             100% {
@@ -231,8 +229,8 @@
                 opacity: 1;
             }
         }
-        
-        /* 3. Rendiamo il popup cliccabile se serve (per i link), ma solo una volta aperto */
+
+        /* 6. Rendiamo il popup cliccabile se serve (per i link), ma solo una volta aperto */
         .leaflet-popup-content-wrapper {
             pointer-events: auto;
         }
