@@ -166,7 +166,7 @@
         display: block;
         margin-left: auto;
         margin-right: auto;
-        border-radius: 4px; /* Opzionale: arrotonda i bordi del logo */
+        border-radius: 40px; /* Opzionale: arrotonda i bordi del logo */
         }
 
         .popup-custom p {
@@ -289,10 +289,10 @@
         function aggiungiCerchio(lat, lng, nomeSquadra, linkPagina, urlLogo) {
       
         var circle = L.circleMarker([lat, lng], {
-            color: '#007BFF',
-            fillColor: '#007BFF',
+            color: '#e42c1d',
+            fillColor: '#e42c1d',
             fillOpacity: 0.7,
-            radius: 10
+            radius: 6
         }).addTo(map);
   
         // Creiamo il contenuto HTML del popup
