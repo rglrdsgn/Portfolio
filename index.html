@@ -345,10 +345,18 @@
         circle.on('mouseout', function (e) { this.closePopup(); });
         circle.on('click', function (e) { window.location.href = linkPagina; });
         }
-  
-        // ESEMPIO DI CHIAMATA (Aggiungi l'URL dell'immagine come ultimo parametro)
-        aggiungiCerchio(51.995, 5.091, "VV Vianen", "#works", "assets/Vianen.jpg");
-        aggiungiCerchio(14.599, 120.984, "Philippines Football National Mens Team", "#works", "assets/Philippines.jpg");
+
+        // --- I TUOI DATI ---
+        var elencoSquadre = [
+            { lat: 51.995, lng: 5.091, nome: "VV Vianen", link: "#works", logo: "assets/Vianen.jpg" },
+            { lat: 14.599, lng: 120.984, nome: "Philippines National Team", link: "#works", logo: "assets/Philippines.jpg" },
+            // Aggiungi qui sotto tutte le altre righe che ti servono
+        ];
+
+        // --- GENERAZIONE AUTOMATICA ---
+        elencoSquadre.forEach(function(item) {
+            aggiungiCerchio(item.lat, item.lng, item.nome, item.link, item.logo);
+        });
     </script>
 </body>
 </html>
