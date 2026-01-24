@@ -153,20 +153,29 @@
         h1 { font-size: 3rem; margin-bottom: 20px; }
         p { max-width: 600px; font-size: 1.2rem; color: #666; }
 
-        /* --- POPUP --- */
+        /* --- STILI GENERALI MAPPA --- */
+        /* Importante: fa capire che il cerchio rosso è cliccabile */
+        .leaflet-interactive {
+            cursor: pointer !important;
+            transition: all 0.3s ease; /* Rende fluido il cambio dimensione del cerchio */
+        }
+
+        /* --- POPUP CUSTOM --- */
         .popup-custom {
-        text-align: center;
-        max-width: 150px; /* Limita la larghezza del popup */
+            text-align: center;
+            max-width: 150px;
+            /* Rende cliccabile anche il popup stesso per sicurezza */
+            cursor: pointer; 
         }
 
         .popup-custom img {
-        width: 80px;      /* Forza il logo a una dimensione fissa */
-        height: auto;     /* Mantiene le proporzioni */
-        margin-bottom: 8px;
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        border-radius: 40px; /* Opzionale: arrotonda i bordi del logo */
+            width: 80px;      
+            height: auto;     
+            margin-bottom: 8px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 40px; 
         }
 
         .popup-custom p {
@@ -176,67 +185,43 @@
             color: #333;
         }
         
-        .popup-custom span {
-            font-size: 0.7rem;
-            color: #007BFF;
-            text-transform: uppercase;
-        }
+        /* Nota: Ho rimosso lo stile 'span' perché abbiamo tolto la scritta "Clicca qui" */
 
-        /* --- POPUP ANIMATION--- */
-        /* 1. Evitiamo che il popup disturbi il mouse mentre si muove sul marker */
+        /* --- POPUP ANIMATION (Il tuo codice originale) --- */
         .leaflet-popup {
             pointer-events: none; 
         }
 
         @keyframes balloonPopTip {
-            0% {
-                transform: scale(0) rotate(45deg); /* Mantiene i 45 gradi anche a scala 0 */
-                opacity: 0;
-            }
-            100% {
-                transform: scale(1) rotate(45deg); /* Rimane ruotata a fine animazione */
-            }
+            0% { transform: scale(0) rotate(45deg); opacity: 0; }
+            100% { transform: scale(1) rotate(45deg); }
         }
         
-        /* 2. Il contenitore della punta (deve avere l'origine corretta) */
         .leaflet-popup-tip-container {
-            transform-origin: top center; /* La punta "nasce" dal corpo del popup */
+            transform-origin: top center;
             animation: balloonPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
 
-        /* 2. Applichiamo l'animazione dedicata solo alla punta */
         .leaflet-popup-tip {
             background: white;
             width: 15px;
             height: 15px;
             padding: 0;
             margin: -10px auto 0;
-            
-            /* Usiamo !important per assicurarci che Leaflet non metta i bastoni tra le ruote */
             transform-origin: center center !important;
             animation: balloonPopTip 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important;
         }
 
-        /* 3. Il corpo del popup usa l'animazione standard senza rotazione */
         .leaflet-popup-content-wrapper {
             transform-origin: bottom center;
             animation: balloonPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            /* Importante: questo deve rimanere auto per permettere il click sul popup se necessario */
+            pointer-events: auto; 
         }
 
         @keyframes balloonPop {
-            0% {
-                transform: scale(0);
-                opacity: 0;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        /* 6. Rendiamo il popup cliccabile se serve (per i link), ma solo una volta aperto */
-            .leaflet-popup-content-wrapper {
-                    pointer-events: auto;
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
   </style>
 </head>
@@ -315,47 +300,60 @@
         }).addTo(map);
   
         // AGGIORNAMENTO DELLA FUNZIONE
-        function aggiungiCerchio(lat, lng, nomeSquadra, linkPagina, urlLogo) {
-      
-        var circle = L.circleMarker([lat, lng], {
-            color: '#e42c1d',
-            fillColor: '#e42c1d',
-            fillOpacity: 0.7,
-            radius: 6
-        }).addTo(map);
-  
-        // Creiamo il contenuto HTML del popup
-        // Ho aggiunto una classe 'popup-content' per gestirlo col CSS
-        var contenutoPopup = `
-            <div class="popup-custom">
-                <img src="${urlLogo}" alt="Logo ${nomeSquadra}">
-                <p><b>${nomeSquadra}</b></p>
-                <span>Clicca per i dettagli</span>
-            </div>
-        `;
-    
-        circle.bindPopup(contenutoPopup, {
-        fadeAnimation: false,   // Disattiva il fade predefinito di Leaflet
-        offset: [0, -10],       // Alza il popup di 10px per non coprire il cerchietto
-        closeButton: false      // Rende il popup più pulito
-        });
-  
-        // Eventi mouse (rimangono uguali)
-        circle.on('mouseover', function (e) { this.openPopup(); });
-        circle.on('mouseout', function (e) { this.closePopup(); });
-        circle.on('click', function (e) { window.location.href = linkPagina; });
-        }
-
-        // --- I TUOI DATI ---
         var elencoSquadre = [
-            { lat: 51.995, lng: 5.091, nome: "VV Vianen", link: "#works", logo: "assets/Vianen.jpg" },
-            { lat: 14.599, lng: 120.984, nome: "Philippines National Team", link: "#works", logo: "assets/Philippines.jpg" },
-            // Aggiungi qui sotto tutte le altre righe che ti servono
-        ];
+                { lat: 51.995, lng: 5.091, nome: "VV Vianen", link: "#works", logo: "assets/Vianen.jpg" },
+                { lat: 14.599, lng: 120.984, nome: "Philippines National Team", link: "#works", logo: "assets/Philippines.jpg" },
+            ];
 
+        function aggiungiCerchio(squadra) {
+        
+            // Creazione cerchio
+            var circle = L.circleMarker([squadra.lat, squadra.lng], {
+                color: '#e42c1d',
+                fillColor: '#e42c1d',
+                fillOpacity: 0.7,
+                radius: 6
+            }).addTo(map);
+  
+            // HTML Popup: Pulito, solo immagine e nome.
+            // L'onclick sul div è una sicurezza in più: se cliccano il popup, vanno al link.
+            var contenutoPopup = `
+                <div class="popup-custom" onclick="window.location.href='${squadra.link}'">
+                    <img src="${squadra.logo}" alt="Logo ${squadra.nome}">
+                    <p>${squadra.nome}</p>
+                </div>
+            `;
+        
+            circle.bindPopup(contenutoPopup, {
+            fadeAnimation: false,   // Disattiva il fade predefinito di Leaflet
+            offset: [0, -10],       // Alza il popup di 10px per non coprire il cerchietto
+            closeButton: false,      // Rende il popup più pulito
+            autoPan: false
+            });
+    
+            // GESTIONE EVENTI (La logica migliorata)
+            
+            // MOUSE SOPRA: Apre popup + Ingrandisce il cerchio (effetto respiro)
+            circle.on('mouseover', function (e) { 
+                this.openPopup(); 
+                this.setStyle({ radius: 10, fillOpacity: 1 }); // Feedback visivo importante!
+            });
+
+            // MOUSE FUORI: Chiude popup + Rimpicciolisce il cerchio
+            circle.on('mouseout', function (e) { 
+                this.closePopup(); 
+                this.setStyle({ radius: 6, fillOpacity: 0.7 }); // Torna normale
+            });
+
+            // CLICK: Va alla pagina
+            circle.on('click', function (e) { 
+                window.location.href = squadra.link; 
+            });
+        }
+    
         // --- GENERAZIONE AUTOMATICA ---
         elencoSquadre.forEach(function(item) {
-            aggiungiCerchio(item.lat, item.lng, item.nome, item.link, item.logo);
+            aggiungiCerchio(item);
         });
     </script>
 </body>
