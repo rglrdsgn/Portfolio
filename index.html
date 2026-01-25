@@ -61,13 +61,14 @@
             cursor: pointer;
             z-index: 1002;
             flex-direction: column;
-            gap: 6px;
+            gap: 5px;
+            padding: 10px;
         }
 
         .hamburger span {
             display: block;
-            width: 28px;
-            height: 3px;
+            width: 22px;
+            height: 1.5px;
             background-color: white;
             transition: 0.3s;
         }
@@ -126,9 +127,9 @@
         .social-links a:hover { transform: scale(1.2); }
 
         /* --- ANIMAZIONE HAMBURGER -> X --- */
-        .hamburger.is-active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+        .hamburger.is-active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
         .hamburger.is-active span:nth-child(2) { opacity: 0; }
-        .hamburger.is-active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+        .hamburger.is-active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
         /* --- STATO "COLLAPSED" (Scroll) --- */
         .navbar.collapsed { height: 60px; }
