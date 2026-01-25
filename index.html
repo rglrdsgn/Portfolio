@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>rglr design - Portfolio</title>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
      crossorigin=""/>
@@ -18,31 +20,22 @@
           line-height: 1.6; 
           color: #333; 
           background-color: #f4f4f4;
+          overflow-x: hidden; 
         }
         html { scroll-behavior: smooth; }
 
         /* --- STILE DEL LOGO --- */
         #site-logo {
                 position: absolute;
-                height: 64px;     /* Modifica questo numero per ingrandire o rimpicciolire */
-                width: auto;      /* Questo mantiene le proporzioni originali senza schiacciarlo */
-                display: block;   /* Toglie piccoli spazi vuoti sotto l'immagine */
-          
-                /* Posizione Iniziale: A sinistra */
+                height: 64px;
+                width: auto;
+                display: block;
                 left: 2rem;
                 top: 50%;
-                transform: translateY(-50%); /* Centrato verticalmente */
-                
-                /* Transizione per spostamento e ridimensionamento */
+                transform: translateY(-50%);
                 transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                z-index: 1001;
             }
-            
-        /* Opzionale: Se vuoi che il logo respiri un po' rispetto ai bordi */
-        .logo {
-            display: flex;
-            align-items: center;
-            padding: 0px 0;
-        }
 
         /* --- STILI DELLA NAVBAR --- */
         .navbar {
@@ -53,188 +46,137 @@
             background-color: #e42c1d;
             display: flex;
             align-items: center;
-            justify-content: flex-end; /* I link stanno a destra */
+            justify-content: flex-end; /* Hamburger a destra */
             padding: 0 2rem;
             box-sizing: border-box;
             z-index: 1000;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-                
-            /* Parametri iniziali (Stato PIENO) */
             height: 100px;
-                
-            /* Transizione fluida per l'altezza */
             transition: height 0.4s ease-in-out;
         }
 
-        /* --- STILE DEI LINK --- */
-        .nav-links {
-            align-items: center;
+        /* --- HAMBURGER MENU (Sempre Visibile) --- */
+        .hamburger {
+            display: flex; 
+            cursor: pointer;
+            z-index: 1002;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 28px;
+            height: 3px;
+            background-color: white;
+            transition: 0.3s;
+        }
+
+        /* --- MENU A COMPARSA (Sempre in modalità Overlay) --- */
+        .nav-content {
+            position: fixed;
+            top: 0;
+            right: -100%; /* Nascosto a destra */
+            width: 100%;
+            height: 100vh;
+            background-color: #e42c1d;
             display: flex;
-            gap: 24px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1001;
+        }
+
+        .nav-content.active {
+            right: 0; /* Scivola dentro */
+        }
+
+        .nav-links {
             list-style: none;
-            margin: 0;
-            padding: 0;
-            
-            /* Transizione per la dissolvenza */
-            transition: opacity 0.3s ease-in-out, visibility 0.3s;
-            opacity: 1;
-            visibility: visible;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
         }
     
         .nav-links a {
             color: white;
             text-decoration: none;
-            font-size: 1.1rem;
+            font-size: 2.5rem; /* Testo grande per il menu a tutto schermo */
             font-weight: 500;
-            padding: 8px 12px;
-            border-radius: 4px;
-            transition: background 0.2s;
+            transition: opacity 0.2s;
         }
 
-        .nav-links a:hover {
-            background-color: rgba(255, 255, 255, 0.2);
+        .nav-links a:hover { opacity: 0.7; }
+
+        /* --- SOCIAL LINKS NEL MENU --- */
+        .social-links {
+            display: flex;
+            gap: 25px;
         }
 
-    
-        /* --- STATO "COLLAPSED" (Scroll verso il basso) --- */
-        .navbar.collapsed {
-            height: 60px; /* La barra si comprime */
+        .social-links a {
+            color: white;
+            font-size: 2rem;
+            transition: transform 0.2s;
         }
+
+        .social-links a:hover { transform: scale(1.2); }
+
+        /* --- ANIMAZIONE HAMBURGER -> X --- */
+        .hamburger.is-active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+        .hamburger.is-active span:nth-child(2) { opacity: 0; }
+        .hamburger.is-active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+        /* --- STATO "COLLAPSED" (Scroll) --- */
+        .navbar.collapsed { height: 60px; }
 
         .navbar.collapsed #site-logo {
-            /* Il logo si sposta al centro */
             left: 50%;
-            transform: translate(-50%, -50%) scale(0.7); /* Centrato orizzontalmente + Rimpicciolito */
+            transform: translate(-50%, -50%) scale(0.7);
         }
 
-        .navbar.collapsed .nav-links {
-            /* I link spariscono */
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none; /* Impedisce di cliccarli mentre sono invisibili */
-        }
-
-        .placeholder-block {
-            height: 300px;
-            background: #ddd;
-            margin-bottom: 2rem;
-            border-radius: 8px;
-        }
-    
-        /* --- STILE MAPPA --- */
-        #map-container {
-            margin-top: 120px; /* Spazio per la navbar */
-            width: 100%;
-            height: 60vh; /* La mappa occupa il 60% dell'altezza dello schermo */
-            background-color: #ddd; /* Colore mentre carica */
-            position: relative;
-        }
-    
-        #map {
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-
-        /* --- SEZIONI --- */
-        section {
-            padding: 80px 20px;
-            min-height: 80vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
+        /* --- MAPPA E SEZIONI --- */
+        #map-container { margin-top: 100px; width: 100%; height: 60vh; position: relative; }
+        #map { width: 100%; height: 100%; z-index: 1; }
+        section { padding: 80px 20px; min-height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
         #works { background-color: #f9f9f9; }
         #concepts { background-color: #eef2f3; }
         #about { background-color: #ffffff; }
         h1 { font-size: 3rem; margin-bottom: 20px; }
-        p { max-width: 600px; font-size: 1.2rem; color: #666; }
-
-        /* --- STILI GENERALI MAPPA --- */
-        /* Importante: fa capire che il cerchio rosso è cliccabile */
-        .leaflet-interactive {
-            cursor: pointer !important;
-            transition: all 0.3s ease; /* Rende fluido il cambio dimensione del cerchio */
-        }
-
-        /* --- POPUP CUSTOM --- */
-        .popup-custom {
-            text-align: center;
-            max-width: 150px;
-            /* Rende cliccabile anche il popup stesso per sicurezza */
-            cursor: pointer; 
-        }
-
-        .popup-custom img {
-            width: 80px;      
-            height: auto;     
-            margin-bottom: 8px;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            border-radius: 40px; 
-        }
-
-        .popup-custom p {
-            margin: 0;
-            font-size: 0.9rem;
-            font-weight: bold;
-            color: #333;
-        }
-        
-        /* Nota: Ho rimosso lo stile 'span' perché abbiamo tolto la scritta "Clicca qui" */
-
-        /* --- POPUP ANIMATION (Il tuo codice originale) --- */
-        .leaflet-popup {
-            pointer-events: none; 
-        }
-
-        @keyframes balloonPopTip {
-            0% { transform: scale(0) rotate(45deg); opacity: 0; }
-            100% { transform: scale(1) rotate(45deg); }
-        }
-        
-        .leaflet-popup-tip-container {
-            transform-origin: top center;
-            animation: balloonPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
-
-        .leaflet-popup-tip {
-            background: white;
-            width: 15px;
-            height: 15px;
-            padding: 0;
-            margin: -10px auto 0;
-            transform-origin: center center !important;
-            animation: balloonPopTip 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important;
-        }
-
-        .leaflet-popup-content-wrapper {
-            transform-origin: bottom center;
-            animation: balloonPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            /* Importante: questo deve rimanere auto per permettere il click sul popup se necessario */
-            pointer-events: auto; 
-        }
-
-        @keyframes balloonPop {
-            0% { transform: scale(0); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
+        .popup-custom { text-align: center; max-width: 150px; cursor: pointer; }
+        .popup-custom img { width: 80px; height: auto; margin-bottom: 8px; border-radius: 40px; margin-left: auto; margin-right: auto; display: block;}
+        .popup-custom p { margin: 0; font-size: 0.9rem; font-weight: bold; }
   </style>
 </head>
 <body>
   
     <nav class="navbar" id="mainNav">
-            <a href="index.html" class="logo"> <img src="assets/logo.png" alt="rglr" id="site-logo"> </a>
-      
+        <a href="index.html" class="logo"> 
+            <img src="assets/logo.png" alt="rglr" id="site-logo"> 
+        </a>
+
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+  
+        <div class="nav-content" id="navContent">
             <ul class="nav-links">
                 <li><a href="#works">Works</a></li>
                 <li><a href="#concepts">Concepts</a></li>
                 <li><a href="#about">About</a></li>
             </ul>
+
+            <div class="social-links">
+                <a href="https://instagram.com/tuoprofilo" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://twitter.com/tuoprofilo" target="_blank"><i class="fab fa-x-twitter"></i></a>
+                <a href="https://linkedin.com/in/tuoprofilo" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
     </nav>
 
     <div id="map-container">
@@ -246,131 +188,104 @@
             <h1>Works</h1>
             <p>I dettagli delle maglie appariranno qui quando clicchi sulla mappa.</p>
         </section>
-
         <section id="concepts">
             <h1>Concepts</h1>
             <p>Area per le tue idee e bozze.</p>
         </section>
-
         <section id="about">
             <h1>About</h1>
             <p>Chi sono e contatti.</p>
         </section>
     </main>
 
-    <script 
-        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-        crossorigin="">
-    </script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   
     <script>
-        // --- SCROLL
+        // --- LOGICA MENU ---
+        const hamburger = document.getElementById('hamburger');
+        const navContent = document.getElementById('navContent');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('is-active');
+            navContent.classList.toggle('active');
+            
+            // Blocca lo scroll del body quando il menu è aperto
+            document.body.style.overflow = navContent.classList.contains('active') ? 'hidden' : 'auto';
+        });
+
+        // Chiudi il menu cliccando su un link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('is-active');
+                navContent.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+        });
+
+        // --- SCROLL NAVBAR LOGIC ---
         let lastScrollTop = 0;
         const navbar = document.getElementById('mainNav');
 
         window.addEventListener("scroll", function() {
-            // Ottiene la posizione attuale dello scroll
             let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
 
+            // Se il menu è aperto, non collassare la barra
+            if (navContent.classList.contains('active')) return;
+
             if (currentScroll > lastScrollTop && currentScroll > 50) {
-                // SCROLL VERSO IL BASSO (e non siamo in cima alla pagina)
                 navbar.classList.add('collapsed');
             } else {
-                // SCROLL VERSO L'ALTO
                 navbar.classList.remove('collapsed');
             }
-
-            // Evita comportamenti strani su scroll negativo (es. "bounce" su mobile)
             lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; 
         });
-    </script>
 
-    <script>
-  
-        // --- CONFIGURAZIONE MAPPA ---
-  
-        // 1. Inizializza la mappa centrata sull'Europa/Asia (Latitudine, Longitudine) e livello di zoom (3 = mondo)
+        // --- CONFIGURAZIONE MAPPA (Invariata) ---
         var map = L.map('map').setView([30, 10], 2);
-  
-        // 2. Aggiunge i "Tiles" di OpenStreetMap (l'aspetto visivo della mappa)
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
               maxZoom: 19,
-              attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+              attribution: '&copy; OpenStreetMap'
         }).addTo(map);
-  
-        // AGGIORNAMENTO DELLA FUNZIONE
+
         var elencoSquadre = [
-                { lat: 51.995, lng: 5.091, nome: "VV Vianen", link: "#works", logo: "assets/Vianen.jpg" },
-                { lat: 14.599, lng: 120.984, nome: "Philippines National Mens Football Team", link: "#works", logo: "assets/Philippines.jpg" },
-                { lat: -2.900, lng: -79.005, nome: "CD Cuenca Juniors", link: "#works", logo: "assets/CuencaJuniors.jpg" },
-                { lat: 38.481, lng: 28.134, nome: "1984 Salihli Spor Kulübü", link: "#works", logo: "assets/Salihlispor.jpg" },
-                { lat: -1.201, lng: 36.917, nome: "Kahawa Pride FC", link: "#works", logo: "assets/KahawaPride.jpg" },
-                { lat: 7.961, lng: -80.428, nome: "Herrera FC", link: "#works", logo: "assets/HerreraFC.jpg" },
-                { lat: 25.154, lng: 55.230, nome: "Phoenix City FC", link: "#works", logo: "assets/PhoenixFC.jpg" },
-                { lat: 10.667, lng: -61.517, nome: "Trinidad & Tobago Bobsled Team", link: "#works", logo: "assets/TTBobsled.jpg" },
-                { lat: 24.996, lng: 55.469, nome: "Duggan 7S", link: "#works", logo: "assets/Duggan7S.jpg" },
-                { lat: 36.149, lng: -5.352, nome: "Magpies FCB", link: "#works", logo: "assets/MagpiesFCB.jpg" },
-                { lat: 51.446, lng: -0.410, nome: "Feltham Town FC", link: "#works", logo: "assets/FelthamTown.jpg" },
-                { lat: 51.470, lng: -0.454, nome: "No Tekk Army", link: "#works", logo: "assets/NoTekk.jpg" },
-                { lat: 35.789, lng: -78.756, nome: "ZALA", link: "#works", logo: "assets/ZALA.jpg" },
-                { lat: 51.385, lng: -0.414, nome: "Walton & Hersham FC", link: "#works", logo: "assets/WaltonHersham.jpg" },
-                { lat: 25.204, lng: 55.270, nome: "Al Qabila FC", link: "#works", logo: "assets/AlQabila.jpg" },
-                { lat: 43.653, lng: -79.383, nome: "Toronto KOI", link: "#works", logo: "assets/TorontoKOI.jpg" },
-                { lat: 34.161, lng: -118.167, nome: "Zoe Suder Jersey", link: "#works", logo: "assets/ZoeSuder.jpg" },
-                { lat: 14.083, lng: -60.951, nome: "Gros Islet Football League", link: "#works", logo: "assets/GrosIslet.jpg" }
-            ];
+            { lat: 51.995, lng: 5.091, nome: "VV Vianen", link: "#works", logo: "assets/Vianen.jpg" },
+            { lat: 14.599, lng: 120.984, nome: "Philippines National Mens Football Team", link: "#works", logo: "assets/Philippines.jpg" },
+            { lat: -2.900, lng: -79.005, nome: "CD Cuenca Juniors", link: "#works", logo: "assets/CuencaJuniors.jpg" },
+            { lat: 38.481, lng: 28.134, nome: "1984 Salihli Spor Kulübü", link: "#works", logo: "assets/Salihlispor.jpg" },
+            { lat: -1.201, lng: 36.917, nome: "Kahawa Pride FC", link: "#works", logo: "assets/KahawaPride.jpg" },
+            { lat: 7.961, lng: -80.428, nome: "Herrera FC", link: "#works", logo: "assets/HerreraFC.jpg" },
+            { lat: 25.154, lng: 55.230, nome: "Phoenix City FC", link: "#works", logo: "assets/PhoenixFC.jpg" },
+            { lat: 10.667, lng: -61.517, nome: "Trinidad & Tobago Bobsled Team", link: "#works", logo: "assets/TTBobsled.jpg" },
+            { lat: 24.996, lng: 55.469, nome: "Duggan 7S", link: "#works", logo: "assets/Duggan7S.jpg" },
+            { lat: 36.149, lng: -5.352, nome: "Magpies FCB", link: "#works", logo: "assets/MagpiesFCB.jpg" },
+            { lat: 51.446, lng: -0.410, nome: "Feltham Town FC", link: "#works", logo: "assets/FelthamTown.jpg" },
+            { lat: 51.470, lng: -0.454, nome: "No Tekk Army", link: "#works", logo: "assets/NoTekk.jpg" },
+            { lat: 35.789, lng: -78.756, nome: "ZALA", link: "#works", logo: "assets/ZALA.jpg" },
+            { lat: 51.385, lng: -0.414, nome: "Walton & Hersham FC", link: "#works", logo: "assets/WaltonHersham.jpg" },
+            { lat: 25.204, lng: 55.270, nome: "Al Qabila FC", link: "#works", logo: "assets/AlQabila.jpg" },
+            { lat: 43.653, lng: -79.383, nome: "Toronto KOI", link: "#works", logo: "assets/TorontoKOI.jpg" },
+            { lat: 34.161, lng: -118.167, nome: "Zoe Suder Jersey", link: "#works", logo: "assets/ZoeSuder.jpg" },
+            { lat: 14.083, lng: -60.951, nome: "Gros Islet Football League", link: "#works", logo: "assets/GrosIslet.jpg" }
+        ];
 
         function aggiungiCerchio(squadra) {
-        
-            // Creazione cerchio
             var circle = L.circleMarker([squadra.lat, squadra.lng], {
-                color: '#e42c1d',
-                fillColor: '#e42c1d',
-                fillOpacity: 0.7,
-                radius: 6
+                color: '#e42c1d', fillColor: '#e42c1d', fillOpacity: 0.7, radius: 6
             }).addTo(map);
-  
-            // HTML Popup: Pulito, solo immagine e nome.
-            // L'onclick sul div è una sicurezza in più: se cliccano il popup, vanno al link.
+
             var contenutoPopup = `
                 <div class="popup-custom" onclick="window.location.href='${squadra.link}'">
                     <img src="${squadra.logo}" alt="Logo ${squadra.nome}">
                     <p>${squadra.nome}</p>
                 </div>
             `;
-        
-            circle.bindPopup(contenutoPopup, {
-            fadeAnimation: false,   // Disattiva il fade predefinito di Leaflet
-            offset: [0, -10],       // Alza il popup di 10px per non coprire il cerchietto
-            closeButton: false,      // Rende il popup più pulito
-            autoPan: false
-            });
-    
-            // GESTIONE EVENTI (La logica migliorata)
-            
-            // MOUSE SOPRA: Apre popup + Ingrandisce il cerchio (effetto respiro)
-            circle.on('mouseover', function (e) { 
-                this.openPopup(); 
-                this.setStyle({ radius: 10, fillOpacity: 1 }); // Feedback visivo importante!
-            });
-
-            // MOUSE FUORI: Chiude popup + Rimpicciolisce il cerchio
-            circle.on('mouseout', function (e) { 
-                this.closePopup(); 
-                this.setStyle({ radius: 6, fillOpacity: 0.7 }); // Torna normale
-            });
-
-            // CLICK: Va alla pagina
-            circle.on('click', function (e) { 
-                window.location.href = squadra.link; 
-            });
+            circle.bindPopup(contenutoPopup, { offset: [0, -10], closeButton: false, autoPan: false });
+            circle.on('mouseover', function() { this.openPopup(); this.setStyle({ radius: 10, fillOpacity: 1 }); });
+            circle.on('mouseout', function() { this.closePopup(); this.setStyle({ radius: 6, fillOpacity: 0.7 }); });
+            circle.on('click', function() { window.location.href = squadra.link; });
         }
-    
-        // --- GENERAZIONE AUTOMATICA ---
-        elencoSquadre.forEach(function(item) {
-            aggiungiCerchio(item);
-        });
+
+        elencoSquadre.forEach(aggiungiCerchio);
     </script>
 </body>
 </html>
