@@ -139,6 +139,25 @@
             transform: translate(-50%, -50%) scale(0.7);
         }
 
+        /* --- FOOTER COPYRIGHT --- */
+        .footer-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.9); /* Sfondo quasi trasparente */
+            color: #999; /* Grigio molto leggero */
+            text-align: center;
+            padding: 8px 0;
+            font-size: 0.65rem; /* Testo molto piccolo */
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            z-index: 999; /* Sotto l'overlay ma sopra i contenuti */
+            border-top: 1px solid rgba(0,0,0,0.03);
+            font-family: 'Helvetica Neue', Helvetica, sans-serif;
+            font-weight: 200; /* Spessore del carattere */
+        }
+
         /* --- MAPPA E SEZIONI --- */
         #map-container { margin-top: 100px; width: 100%; height: 60vh; position: relative; }
         #map { width: 100%; height: 100%; z-index: 1; }
@@ -174,9 +193,10 @@
 
             <div class="social-links">
                 <a href="https://instagram.com/rglrdesign" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/+393454811136" target="_blank" title="Contattami su WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="mailto:rglrdsgn@gmail.com" title="Invia una Mail"><i class="fas fa-envelope"></i></a>
                 <a href="https://twitter.com/rglrdesign" target="_blank"><i class="fab fa-x-twitter"></i></a>
                 <a href="https://linkedin.com/in/alessio-cotardo-9897a33a8" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                <a href="mailto:rglrdsgn@gmail.com" title="Invia una Mail"><i class="fas fa-envelope"></i></a>
             </div>
         </div>
     </nav>
@@ -200,9 +220,16 @@
         </section>
     </main>
 
+    <footer class="footer-bar">
+        &copy; <span id="year"></span> rglr design
+    </footer>
+
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   
     <script>
+        // Imposta l'anno corrente nel footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
         // --- LOGICA MENU ---
         const hamburger = document.getElementById('hamburger');
         const navContent = document.getElementById('navContent');
