@@ -11,10 +11,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
      crossorigin=""/>
-    
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-search/dist/leaflet-search.min.css">
 
-  
   <style>
     /* --- CARICAMENTO FONT PERSONALIZZATI --- */
     @font-face {
@@ -320,8 +317,6 @@
         &copy; <span id="year"></span> rglr design
     </footer>
 
-    <script src="https://unpkg.com/leaflet-control-search/dist/leaflet-search.min.js"></script>
-
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   
     <script>
@@ -403,7 +398,7 @@
                 fillOpacity: 0.7, 
                 radius: 6,
                 className: 'anim-pin' // Aggiunge la classe animazione
-            }).addTo(markersLayer);
+            }).addTo(map);
 
             var contenutoPopup = `
                 <div class="popup-custom" onclick="window.location.href='${squadra.link}'">
@@ -422,8 +417,6 @@
             };
         }
 
-        var markersLayer = new L.LayerGroup().addTo(map);
-
         // --- ANIMAZIONE DI CARICAMENTO SEQUENZIALE ---
         // Itera sulla lista e aggiunge un ritardo per ogni elemento
         elencoSquadre.forEach((squadra, index) => {
@@ -431,22 +424,6 @@
                 aggiungiCerchio(squadra);
             }, index * 200); // 200ms di ritardo tra un pin e l'altro
         });
-
-        var searchControl = new L.Control.Search({
-            layer: markersLayer,
-            propertyName: 'name',
-            zoom: 6,
-            initial: false,
-            marker: false,
-            position: 'topleft'
-        });
-
-        searchControl.on('search:locationfound', function(e) {
-            e.layer.openPopup();
-        });
-
-map.addControl(searchControl);
-
     </script>
 </body>
 </html>
