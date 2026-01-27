@@ -460,7 +460,7 @@
 
     .popup-custom { text-align: center; max-width: 150px; cursor: pointer; }
     .popup-custom img { width: 80px; height: auto; margin-bottom: 8px; border-radius: 40px; margin-left: auto; margin-right: auto; display: block;}
-    .popup-custom p { margin: 0; font-size: 0.9rem; font-weight: bold; color: #333;}
+    .popup-custom p { margin: 0; font-size: 0.9rem; font-weight: bold; color: #ccc;}
 
     /* --- PIN MAP ANIMATION --- */
     @keyframes popIn {
@@ -567,7 +567,7 @@
         <div id="map"></div>
         
         <div class="search-overlay">
-            <input type="text" id="search-input" placeholder="Cerca team..." autocomplete="off">
+            <input type="text" id="search-input" placeholder="Search team..." autocomplete="off">
             <button id="search-btn">
                 <i class="fas fa-search" id="search-icon"></i> </button>
             <div id="search-results" class="results-list"></div>
@@ -640,7 +640,7 @@
         // 2. Adding custom zoom controls at bottom right
         L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
               maxZoom: 19,
               attribution: '&copy; OpenStreetMap'
         }).addTo(map);
@@ -648,30 +648,30 @@
         // Object to hold markers for search functionality
         var markersMap = {};
 
-        var elencoSquadre = [
-            { lat: 51.995, lng: 5.091, nome: "VV Vianen", link: "#works", logo: "assets/Vianen.jpg" },
-            { lat: 14.599, lng: 120.984, nome: "Philippines National Mens Football Team", link: "#works", logo: "assets/Philippines.jpg" },
-            { lat: -2.900, lng: -79.005, nome: "CD Cuenca Juniors", link: "#works", logo: "assets/CuencaJuniors.jpg" },
-            { lat: 38.481, lng: 28.134, nome: "1984 Salihli Spor Kulübü", link: "#works", logo: "assets/Salihlispor.jpg" },
-            { lat: -1.201, lng: 36.917, nome: "Kahawa Pride FC", link: "#works", logo: "assets/KahawaPride.jpg" },
-            { lat: 7.961, lng: -80.428, nome: "Herrera FC", link: "#works", logo: "assets/HerreraFC.jpg" },
-            { lat: 25.154, lng: 55.230, nome: "Phoenix City FC", link: "#works", logo: "assets/PhoenixFC.jpg" },
-            { lat: 10.667, lng: -61.517, nome: "Trinidad & Tobago Bobsled Team", link: "#works", logo: "assets/TTBobsled.jpg" },
-            { lat: 24.996, lng: 55.469, nome: "Duggan 7S", link: "#works", logo: "assets/Duggan7S.jpg" },
-            { lat: 36.149, lng: -5.352, nome: "Magpies FCB", link: "#works", logo: "assets/MagpiesFCB.jpg" },
-            { lat: 51.446, lng: -0.410, nome: "Feltham Town FC", link: "#works", logo: "assets/FelthamTown.jpg" },
-            { lat: 51.470, lng: -0.454, nome: "No Tekk Army", link: "#works", logo: "assets/NoTekk.jpg" },
-            { lat: 35.789, lng: -78.756, nome: "ZALA", link: "#works", logo: "assets/ZALA.jpg" },
-            { lat: 51.385, lng: -0.414, nome: "Walton & Hersham FC", link: "#works", logo: "assets/WaltonHersham.jpg" },
-            { lat: 25.204, lng: 55.270, nome: "Al Qabila FC", link: "#works", logo: "assets/AlQabila.jpg" },
-            { lat: 43.653, lng: -79.383, nome: "Toronto KOI", link: "#works", logo: "assets/TorontoKOI.jpg" },
-            { lat: 34.161, lng: -118.167, nome: "Zoe Suder", link: "#works", logo: "assets/ZoeSuder.jpg" },
-            { lat: 14.083, lng: -60.951, nome: "Gros Islet Football League", link: "#works", logo: "assets/GrosIslet.jpg" },
-            { lat: 53.794, lng: -1.753, nome: "Leon Slater", link: "#works", logo: "assets/LeonSlater.jpg" }
+        var teamsList = [
+            { lat: 51.995, lng: 5.091, name: "VV Vianen", link: "#works", logo: "assets/Vianen.jpg" },
+            { lat: 14.599, lng: 120.984, name: "Philippines National Mens Football Team", link: "#works", logo: "assets/Philippines.jpg" },
+            { lat: -2.900, lng: -79.005, name: "CD Cuenca Juniors", link: "#works", logo: "assets/CuencaJuniors.jpg" },
+            { lat: 38.481, lng: 28.134, name: "1984 Salihli Spor Kulübü", link: "#works", logo: "assets/Salihlispor.jpg" },
+            { lat: -1.201, lng: 36.917, name: "Kahawa Pride FC", link: "#works", logo: "assets/KahawaPride.jpg" },
+            { lat: 7.961, lng: -80.428, name: "Herrera FC", link: "#works", logo: "assets/HerreraFC.jpg" },
+            { lat: 25.154, lng: 55.230, name: "Phoenix City FC", link: "#works", logo: "assets/PhoenixFC.jpg" },
+            { lat: 10.667, lng: -61.517, name: "Trinidad & Tobago Bobsled Team", link: "#works", logo: "assets/TTBobsled.jpg" },
+            { lat: 24.996, lng: 55.469, name: "Duggan 7S", link: "#works", logo: "assets/Duggan7S.jpg" },
+            { lat: 36.149, lng: -5.352, name: "Magpies FCB", link: "#works", logo: "assets/MagpiesFCB.jpg" },
+            { lat: 51.446, lng: -0.410, name: "Feltham Town FC", link: "#works", logo: "assets/FelthamTown.jpg" },
+            { lat: 51.470, lng: -0.454, name: "No Tekk Army", link: "#works", logo: "assets/NoTekk.jpg" },
+            { lat: 35.789, lng: -78.756, name: "ZALA", link: "#works", logo: "assets/ZALA.jpg" },
+            { lat: 51.385, lng: -0.414, name: "Walton & Hersham FC", link: "#works", logo: "assets/WaltonHersham.jpg" },
+            { lat: 25.204, lng: 55.270, name: "Al Qabila FC", link: "#works", logo: "assets/AlQabila.jpg" },
+            { lat: 43.653, lng: -79.383, name: "Toronto KOI", link: "#works", logo: "assets/TorontoKOI.jpg" },
+            { lat: 34.161, lng: -118.167, name: "Zoe Suder", link: "#works", logo: "assets/ZoeSuder.jpg" },
+            { lat: 14.083, lng: -60.951, name: "Gros Islet Football League", link: "#works", logo: "assets/GrosIslet.jpg" },
+            { lat: 53.794, lng: -1.753, name: "Leon Slater", link: "#works", logo: "assets/LeonSlater.jpg" }
         ];
 
-        function aggiungiCerchio(squadra) {
-            var circle = L.circleMarker([squadra.lat, squadra.lng], {
+        function addCircle(team) {
+            var circle = L.circleMarker([team.lat, team.lng], {
                 color: '#e42c1d', 
                 fillColor: '#e42c1d', 
                 fillOpacity: 0.7, 
@@ -680,25 +680,25 @@
             }).addTo(map);
 
             // Save marker reference for search functionality
-            markersMap[squadra.nome] = circle;
+            markersMap[team.name] = circle;
 
-            var contenutoPopup = `
-                <div class="popup-custom" onclick="window.location.href='${squadra.link}'">
-                    <img src="${squadra.logo}" alt="Logo ${squadra.nome}">
-                    <p>${squadra.nome}</p>
+            var contentPopup = `
+                <div class="popup-custom" onclick="window.location.href='${team.link}'">
+                    <img src="${team.logo}" alt="Logo ${team.name}">
+                    <p>${team.name}</p>
                 </div>
             `;
-            circle.bindPopup(contenutoPopup, { offset: [0, -10], closeButton: false, autoPan: true });
+            circle.bindPopup(contentPopup, { offset: [0, -10], closeButton: false, autoPan: true });
             
             circle.on('mouseover', function() { this.openPopup(); this.setStyle({ radius: 10, fillOpacity: 1 }); });
             circle.on('mouseout', function() { this.closePopup(); this.setStyle({ radius: 6, fillOpacity: 0.7 }); });
-            circle.on('click', function() { window.location.href = squadra.link; });
+            circle.on('click', function() { window.location.href = team.link; });
         }
 
         // Sequentially add circles with delay for pop-in effect
-        elencoSquadre.forEach((squadra, index) => {
+        teamsList.forEach((team, index) => {
             setTimeout(() => {
-                aggiungiCerchio(squadra);
+                addCircle(team);
             }, index * 200);
         });
 
@@ -733,20 +733,14 @@
             const query = this.value.toLowerCase();
             resultsContainer.innerHTML = ''; 
 
-            // Logic: show results only if query length >= 3
-            if (query.length < 3) {
-                resultsContainer.classList.remove('show');
-                return;
-            }
-
-            const matches = elencoSquadre.filter(s => s.nome.toLowerCase().includes(query));
+            const matches = teamsList.filter(s => s.name.toLowerCase().includes(query));
 
             if (matches.length > 0) {
                 resultsContainer.classList.add('show');
                 matches.forEach(match => {
                     const div = document.createElement('div');
                     div.classList.add('result-item');
-                    div.innerHTML = `<img src="${match.logo}" alt=""> <span>${match.nome}</span>`;
+                    div.innerHTML = `<img src="${match.logo}" alt=""> <span>${match.name}</span>`;
                     
                     div.addEventListener('click', () => {
                         goToTeam(match);
@@ -759,17 +753,17 @@
         });
 
         // Function to fly to selected team
-        function goToTeam(squadra) {
+        function goToTeam(team) {
             // Close search results
             resultsContainer.classList.remove('show');
             
             // Animation to team location
-            map.flyTo([squadra.lat, squadra.lng], 10, {
+            map.flyTo([team.lat, team.lng], 10, {
                 duration: 1.2
             });
 
             // Reveal popup after flight
-            const marker = markersMap[squadra.nome];
+            const marker = markersMap[team.name];
             if (marker) {
                 setTimeout(() => {
                     marker.openPopup();
