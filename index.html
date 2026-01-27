@@ -164,6 +164,125 @@
 
     .social-links a:hover { transform: scale(1.2); }
 
+    /* --- HERO SECTION --- */
+    .hero {
+        position: relative;
+        height: 100vh; /* Occupa tutto lo schermo */
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center; /* Centrato orizzontalmente */
+        text-align: center;
+        padding: 0 2rem;
+        overflow: hidden;
+        margin-bottom: 50px;
+    }
+
+    /* Sfondo animato (Glow effect) */
+    .hero::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 60vw;
+        height: 60vw;
+        background: radial-gradient(circle, rgba(228, 44, 29, 0.15) 0%, rgba(15, 15, 15, 0) 70%);
+        z-index: -1;
+        animation: pulseGlow 8s infinite alternate;
+        pointer-events: none;
+    }
+
+    @keyframes pulseGlow {
+        0% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.8); }
+        100% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+    }
+
+    /* Tipografia Hero */
+    .hero h1 {
+        font-family: 'Retroica', sans-serif; /* O Retroica se preferisci */
+        font-size: 5rem;
+        line-height: 1.1;
+        margin-bottom: 20px;
+        letter-spacing: -2px;
+        background: linear-gradient(to right, #fff, #999);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .hero h2 {
+        font-family: 'Helvetica Neue', Helvetica, sans-serif;
+        font-weight: 300;
+        font-size: 1.3rem;
+        color: #ccc;
+        max-width: 700px;
+        margin-bottom: 40px;
+        letter-spacing: 1px;
+    }
+
+    /* Badge "FIFA Museum" */
+    .hero-badge {
+        display: inline-block;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 8px 16px;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        margin-bottom: 20px;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(5px);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #e42c1d; /* Rosso brand */
+        font-weight: bold;
+    }
+
+    /* Bottone CTA (Call to Action) */
+    .btn-hero {
+        padding: 15px 40px;
+        background: #e42c1d;
+        color: white;
+        text-decoration: none;
+        font-family: 'Retroica', sans-serif;
+        font-size: 1.2rem;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        border: 1px solid #e42c1d;
+        box-shadow: 0 0 20px rgba(228, 44, 29, 0.4);
+    }
+
+    .btn-hero:hover {
+        background: transparent;
+        color: #e42c1d;
+        box-shadow: 0 0 40px rgba(228, 44, 29, 0.6);
+        transform: translateY(-3px);
+    }
+
+    /* Indicatore Scroll */
+    .scroll-down {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        animation: bounce 2s infinite;
+        opacity: 0.7;
+        font-size: 1.5rem;
+        color: white;
+    }
+
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
+        40% {transform: translateX(-50%) translateY(-10px);}
+        60% {transform: translateX(-50%) translateY(-5px);}
+    }
+
+    /* Media Queries per Mobile */
+    @media (max-width: 768px) {
+        .hero h1 { font-size: 3rem; }
+        .hero h2 { font-size: 1rem; padding: 0 20px; }
+        .hero-badge { font-size: 0.7rem; }
+    }
+
     /* --- MAPPA E SEZIONI --- */
     .map-header {
         margin-top: 120px; /* Spazio per la navbar */
@@ -420,9 +539,25 @@
         </div>
     </nav>
 
-    <div class="map-header">
-        <h2>Explore my projects around the world</h2>
-    </div>
+    <header class="hero">
+        <div class="hero-badge">
+            <i class="fas fa-trophy"></i> Featured at FIFA Museum
+        </div>
+
+        <h1>Hyper-Realistic 3D Design.<br>Real-World Execution.</h1>
+        
+        <h2>
+            Transforming complex concepts into professional-grade kits. 
+            <br>From hyper-realistic renders to <span>on-pitch performance</span>, 
+            I deliver designs built for the real world.
+        </h2>
+
+        <a href="#map-container" class="btn-hero">Explore Works</a>
+
+        <div class="scroll-down">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </header>
 
     <div id="map-container">
         <div id="map"></div>
