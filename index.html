@@ -13,7 +13,7 @@
      crossorigin=""/>
 
   <style>
-    /* --- CARICAMENTO FONT PERSONALIZZATI --- */
+    /* --- CUSTOM FONTS --- */
     @font-face {
         font-family: 'Retroica';
         src: url('assets/fonts/retroica.ttf') format('truetype');
@@ -28,7 +28,7 @@
         font-style: normal;
     }    
 
-    /* --- STILE CSS GENERALE --- */
+    /* --- GENERAL CSS STYLE --- */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { 
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
@@ -61,7 +61,7 @@
 
     .navbar.collapsed { height: 65px; background: rgba(10, 10, 10, 0.85); }
 
-    /* --- STILE DEL LOGO --- */
+    /* --- LOGO STYLE --- */
     #site-logo {
         position: absolute;
         height: 64px;
@@ -105,7 +105,7 @@
     .nav-content {
         position: fixed;
         top: 0;
-        right: -100%; /* Nascosto a destra */
+        right: -100%; /* Hidden */
         width: 100%;
         height: 100vh;
         background-color: #0f0f0f;
@@ -119,7 +119,7 @@
     }
 
     .nav-content.active {
-        right: 0; /* Scivola dentro */
+        right: 0; /* Hidden */
     }
 
     .nav-links {
@@ -150,7 +150,7 @@
         margin-bottom: -20px;
     }
 
-    /* --- SOCIAL LINKS NEL MENU --- */
+    /* --- MENU SOCIAL LINKS --- */
     .social-links {
         display: flex;
         gap: 25px;
@@ -199,9 +199,9 @@
         100% { opacity: 1; transform: translate(-50%, -50%) scale(2); }
     }
 
-    /* Tipografia Hero */
+    /* Hero Tipography  */
     .hero h1 {
-        font-family: 'Retroica', sans-serif; /* O Retroica se preferisci */
+        font-family: 'Retroica', sans-serif;
         font-size: 5rem;
         line-height: 1.1;
         margin-bottom: 20px;
@@ -221,30 +221,34 @@
         letter-spacing: 1px;
     }
 
-    /* Badge "FIFA Museum" */
+    /* "FIFA Museum" Badge */
     .hero-badge {
         display: inline-block;
         border: 1px solid rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
         padding: 8px 16px;
         border-radius: 50px;
         font-size: 0.8rem;
         margin-bottom: 20px;
         background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(5px);
         text-transform: uppercase;
         letter-spacing: 1px;
-        color: #e42c1d; /* Rosso brand */
+        color: #e42c1d;
         font-weight: bold;
     }
 
-    /* Bottone CTA (Call to Action) */
+    /* Call to Action Button */
     .btn-hero {
+
         padding: 15px 40px;
-        background: #e42c1d;
+        background: rgba(228, 44, 29, 0.7);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
         color: white;
         text-decoration: none;
         font-family: 'Retroica', sans-serif;
-        font-size: 1.2rem;
+        font-size: 1rem;
         border-radius: 50px;
         transition: all 0.3s ease;
         border: 1px solid #e42c1d;
@@ -258,7 +262,7 @@
         transform: translateY(-3px);
     }
 
-    /* Indicatore Scroll */
+    /* Scroll indicator */
     .scroll-down {
         position: absolute;
         bottom: 30px;
@@ -283,9 +287,8 @@
         .hero-badge { font-size: 0.7rem; }
     }
 
-    /* --- MAPPA E SEZIONI --- */
+    /* --- MAPS AND SECTIONS --- */
     .map-header {
-        margin-top: 120px; /* Spazio per la navbar */
         text-align: center;
         padding: 0 20px;
         margin-bottom: 16px;
@@ -293,14 +296,14 @@
 
     .map-header h2 {
         font-family: 'Helvetica Neue', Helvetica, sans-serif;
-        font-weight: 300; /* Spessore del carattere */
+        font-weight: 300;
         color: #aaa;
         letter-spacing: 2px;
         font-size: 1rem;
     }
 
     #map-container { 
-        position: relative; /* Necessario per posizionare la ricerca */
+        position: relative;
         width: 95%; 
         height: 60vh; 
         margin: 0 auto; 
@@ -324,24 +327,23 @@
     }
 
     .leaflet-bar a {
-        background-color: rgba(10, 10, 10, 0.9) !important; /* Sfondo scuro come il search */
+        background-color: rgba(10, 10, 10, 0.9) !important;
         backdrop-filter: blur(10px) !important;
         -webkit-backdrop-filter: blur(10px) !important;
         color: white !important;
         border: 1px solid rgba(255, 255, 255, 0.2) !important;
-        width: 36px !important; height: 36px !important; /* Dimensioni come il search */
-        border-radius: 50% !important; /* Rotondi */
+        width: 36px !important; height: 36px !important;
+        border-radius: 50% !important;
         transition: all 0.3s ease !important;
         font-size: 18px !important;
     }
 
     .leaflet-bar a:hover {
-        background-color: rgba(228, 44, 29, 0.8) !important; /* Rosso brand al passaggio */
+        background-color: rgba(228, 44, 29, 0.8) !important;
         border-color: rgba(228, 44, 29, 1) !important;
         color: white !important;
     }
     
-    /* Rimuove i bordi di default tra i bottoni */
     .leaflet-bar a:first-child { border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important; }
     .leaflet-bar { box-shadow: none !important; }
 
@@ -351,7 +353,7 @@
         position: absolute;
         top: 20px;
         right: 20px;
-        z-index: 1000; /* Sopra la mappa Leaflet */
+        z-index: 1000;
         display: flex;
         flex-direction: column;
         align-items: flex-end;
@@ -360,9 +362,9 @@
 
     .search-overlay input {
         position: absolute;
-        right: 50px; /* Di fianco al bottone */
+        right: 50px;
         top: 0;
-        width: 0; /* Nascosto inizialmente */
+        width: 0;
         height: 40px;
         padding: 0;
         border: none;
@@ -390,7 +392,7 @@
         width: 40px;
         height: 40px;
         border-radius: 50%;
-        background: rgba(10, 10, 10, 0.9); /* Sfondo scuro fisso per visibilità */
+        background: rgba(10, 10, 10, 0.9);
         backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.2);
         color: white;
@@ -402,12 +404,12 @@
     }
 
     #search-btn:hover {
-        background: rgba(228, 44, 29, 0.8); /* Rosso brand */
+        background: rgba(228, 44, 29, 0.8);
         transform: scale(1.1);
         border-color: rgba(228, 44, 29, 1);
     }
 
-    /* --- RISULTATI RICERCA --- */
+    /* --- RESULTS LIST --- */
     .results-list {
         margin-top: 10px;
         width: 250px;
@@ -438,7 +440,6 @@
     .result-item:hover { background: rgba(255, 255, 255, 0.1); }
     .result-item img { width: 20px; height: 20px; border-radius: 50%; object-fit: cover; }
 
-    /* Scrollbar personalizzata per i risultati */
     .results-list::-webkit-scrollbar { width: 6px; }
     .results-list::-webkit-scrollbar-track { background: transparent; }
     .results-list::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
@@ -476,7 +477,7 @@
         animation: popIn 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
     }
 
-    /* --- SEZIONI PRINCIPALI --- */
+    /* --- MAIN SECTIONS --- */
     section { padding: 80px 20px; min-height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
     #works { background-color: #333; }
     #concepts { background-color: #191919; }
@@ -594,10 +595,10 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   
     <script>
-        // Imposta l'anno corrente nel footer
+        // Setting current year in footer
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        // --- LOGICA MENU ---
+        // --- MENU LOGIC ---
         const hamburger = document.getElementById('hamburger');
         const navContent = document.getElementById('navContent');
 
@@ -630,12 +631,12 @@
             lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; 
         });
 
-        // --- CONFIGURAZIONE MAPPA & RICERCA ---
+        // --- MAP AND SEARCH CONFIGURATION ---
         
-        // 1. Inizializzo mappa senza controlli zoom default
+        // 1. Starting map centered globally without zoom controls
         var map = L.map('map', { zoomControl: false }).setView([30, 10], 2);
         
-        // 2. Aggiungo zoom in basso a destra (più pulito con la ricerca in alto)
+        // 2. Adding custom zoom controls at bottom right
         L.control.zoom({ position: 'bottomright' }).addTo(map);
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -643,7 +644,7 @@
               attribution: '&copy; OpenStreetMap'
         }).addTo(map);
 
-        // Oggetto per memorizzare i riferimenti ai marker (Nome -> Marker)
+        // Object to hold markers for search functionality
         var markersMap = {};
 
         var elencoSquadre = [
@@ -677,7 +678,7 @@
                 className: 'anim-pin'
             }).addTo(map);
 
-            // Salviamo il riferimento al marker usando il nome squadra come chiave
+            // Save marker reference for search functionality
             markersMap[squadra.nome] = circle;
 
             var contenutoPopup = `
@@ -693,31 +694,31 @@
             circle.on('click', function() { window.location.href = squadra.link; });
         }
 
-        // Caricamento sequenziale
+        // Sequentially add circles with delay for pop-in effect
         elencoSquadre.forEach((squadra, index) => {
             setTimeout(() => {
                 aggiungiCerchio(squadra);
             }, index * 200);
         });
 
-        // --- GESTIONE RICERCA ---
+        // --- SEARCH FUNCTIONALITY ---
         const searchBtn = document.getElementById('search-btn');
         const searchInput = document.getElementById('search-input');
-        const searchIcon = document.getElementById('search-icon'); // Riferimento all'icona
+        const searchIcon = document.getElementById('search-icon');
         const searchOverlay = document.querySelector('.search-overlay');
         const resultsContainer = document.getElementById('search-results');
 
-        // Toggle barra ricerca e cambio icona
+        // Toggle search overlay
         searchBtn.addEventListener('click', () => {
             searchOverlay.classList.toggle('active');
             
             if (searchOverlay.classList.contains('active')) {
-                // Attivo: focus su input e cambia icona in X
+                // Active: focus input and change icon to 'X'
                 searchInput.focus();
                 searchIcon.classList.remove('fa-search');
                 searchIcon.classList.add('fa-times');
             } else {
-                // Inattivo: pulisci tutto e ripristina icona lente
+                // Inactive: clear results and reset
                 resultsContainer.innerHTML = '';
                 resultsContainer.classList.remove('show');
                 searchInput.value = '';
@@ -731,7 +732,7 @@
             const query = this.value.toLowerCase();
             resultsContainer.innerHTML = ''; 
 
-            // Logica: mostra risultati solo dal 3° carattere
+            // Logic: show results only if query length >= 3
             if (query.length < 3) {
                 resultsContainer.classList.remove('show');
                 return;
@@ -756,22 +757,22 @@
             }
         });
 
-        // Funzione per spostare la mappa (VELOCIZZATA)
+        // Function to fly to selected team
         function goToTeam(squadra) {
-            // Chiude la lista dei risultati
+            // Close search results
             resultsContainer.classList.remove('show');
             
-            // Animazione "volo" più veloce
+            // Animation to team location
             map.flyTo([squadra.lat, squadra.lng], 10, {
-                duration: 1.2 // Durata ridotta a 1.2 secondi per maggiore velocità
+                duration: 1.2
             });
 
-            // Recupera il marker salvato e apri il popup alla fine del volo
+            // Reveal popup after flight
             const marker = markersMap[squadra.nome];
             if (marker) {
                 setTimeout(() => {
                     marker.openPopup();
-                }, 1200); // Coincide con la nuova durata del volo
+                }, 1200);
             }
         }
     </script>
