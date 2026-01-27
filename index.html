@@ -556,7 +556,7 @@
             I deliver designs built for the real world.
         </h2>
 
-        <a href="#map-container" class="btn-hero">Explore Works</a>
+        <a href="#map-container" class="btn-hero" id="explore-btn">Explore Works</a>
 
         <div class="scroll-down">
             <i class="fas fa-chevron-down"></i>
@@ -695,11 +695,29 @@
             circle.on('click', function() { window.location.href = squadra.link; });
         }
 
-        // Sequentially add circles with delay for pop-in effect
-        elencoSquadre.forEach((squadra, index) => {
-            setTimeout(() => {
-                aggiungiCerchio(squadra);
-            }, index * 200);
+        // Variable to prevent multiple marker creations
+        let markersCreated = false;
+
+        // Funtion to start pin animation sequentially
+        function startPinAnimation() {
+            if (markersCreated) return; // If already created, do nothing
+            
+            elencoSquadre.forEach((squadra, index) => {
+                setTimeout(() => {
+                    aggiungiCerchio(squadra);
+                }, index * 200); // Keep 200ms delay between each pin
+            });
+            
+            markersCreated = true;
+        }
+
+        // Event Listener on "Explore Works" button
+        const exploreBtn = document.getElementById('explore-btn');
+        exploreBtn.addEventListener('click', function(e) {
+            // Start pin animation
+            startPinAnimation();
+            
+            // Link to map section
         });
 
         // --- SEARCH FUNCTIONALITY ---
